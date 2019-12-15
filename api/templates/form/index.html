@@ -1,22 +1,29 @@
 <html>
 <body>
+{% block body %}
     <div>
         <form method='post'>
             {% csrf_token %}
-            {{form}}
+            {{form.as_p}}<!--use paragraphs to render html-->
             <!--creates an input field for each database item in models.py file-->
             <button type='submit'>Submit</button>
         </form>
-        <!--checks for messages, if there are, shows answer-->
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li {% if message.tags %} class="{{message.tags}}"{% endif %}>
-                {{message}}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+        <!--&lt;!&ndash;checks for messages, if there are, shows answer&ndash;&gt;-->
+        <!--{% if messages %}-->
+        <!--<ul class="messages">-->
+            <!--{% for message in messages %}-->
+            <!--&lt;!&ndash;<li {% if message.tags %} class="{{message.tags}}"{% endif %}>&ndash;&gt;-->
+                <!--{{message}}-->
+            <!--</li>-->
+            <!--{% endfor %}-->
+        <!--</ul>-->
+        <!--{% endif %}-->
+        <h2>{{ text }}</h2>
+        {% for url in url_submitted %}
+            <h1>{{url.url}}</h1>
+            <p>{{url.date}}</p>
+        {% endfor %}
     </div>
 </body>
 </html>
+{% endblock %}

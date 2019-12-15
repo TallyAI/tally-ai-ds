@@ -1,10 +1,14 @@
 from django.db import models
+from django.conf import settings
 from django.core.validators import int_list_validator
+from django.contrib.auth.models import User
 
 # Create your models here.
 class url(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.IntegerField(primary_key=True, )
     url = models.CharField(max_length=5000)
+    date = models.DateTimeField(auto_now=True)#saved on first input into database
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
 
 
     def __str__(self):

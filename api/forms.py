@@ -1,13 +1,11 @@
-# from django.forms import ModelForm
-# from . models import url
-#
-# class MyForm(ModelForm):
-# 	class Meta:
-# 		model=url
-# 		fields = '__all__'
-
 from django import forms
+from api.models import url
 
 
-class ApprovalForm(forms.Form):
-    url =  forms.CharField(max_length=5000)
+class ApprovalForm(forms.ModelForm):#bound to a django Model
+    url = forms.CharField(max_length=5000)
+    # id = forms.IntegerField()
+
+    class Meta:
+        model = url#links the model
+        fields = ('url',)#fields to include, could include more than one, comma saves datatype as tuple
