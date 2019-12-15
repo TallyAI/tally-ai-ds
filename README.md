@@ -1,5 +1,6 @@
 # TALLY AI
 
+A Word-Trend Analysis Business Intelligence Dashbaord
 You can find the project at tallyai.xyz
 
 ## Contributors
@@ -16,7 +17,7 @@ You can find the project at tallyai.xyz
 
 
 
-![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
+
 
 
 ## Project Overview
@@ -48,6 +49,9 @@ Yelp.com website
 -   python manage.py runserver
 -   navigate to http://127.0.0.1:8000/api/form/
 -   enter yelp business url, press submit
+
+
+![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
 
 ## Contributing
