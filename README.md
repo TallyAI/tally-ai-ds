@@ -8,7 +8,7 @@ You can find the project at tallyai.xyz
 
 |                                       [Lily Su](https://github.com/LilySu)                                        |
 | :-----------------------------------------------------------------------------------------------------------: | 
-|                      [<img src="https://ibb.co/WpxLR3W" width = "200" />](https://github.com/LilySu)                       |
+|                      [<img src="https://i.ibb.co/qFyv2nM/download.png" width = "200" />](https://github.com/LilySu)                       |
 |                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/LilySu)                 |
 | [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/lilyxsu) | 
 
