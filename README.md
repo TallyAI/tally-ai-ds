@@ -1,7 +1,7 @@
 # TALLY AI
 
 A Word-Trend Analysis Application That Provides Actionable Business Insights. A Business Intelligence Dashboard for Small-to-Mid-Sized Buinesses.
-You can find the project at tallyai.xyz
+You can find the project at [tallyai.xyz](tallyai.xyz)    
 
 ## Contributors
 
@@ -51,7 +51,6 @@ Yelp.com website
 -   enter yelp business url, press submit
 
 
-![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
 
 ## Contributing
@@ -90,9 +89,7 @@ Remember that this project is licensed under the MIT license, and by submitting 
 
 These contribution guidelines have been adapted from [this good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
 
-## Documentation
 
-See [Backend Documentation](_link to your backend readme here_) for details on the backend of our project.
+![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
-See [Front End Documentation](_link to your front end readme here_) for details on the front end of our project.
 
