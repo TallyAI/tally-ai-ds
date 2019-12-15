@@ -1,27 +1,20 @@
-# tally-ai-ds
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 5️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # TALLY AI
 
-You can find the project at [🚫URL NAME GOES HERE](🚫copy and paste URL here).
+You can find the project at tallyai.xyz
 
-## 5️⃣ Contributors
+## Contributors
 
-🚫Add contributor info below, make sure add images and edit the social links for each member. Add to or delete these place-holders as needed
+
 
 |                                       [Lily Su](https://github.com/LilySu)                                        |
 | :-----------------------------------------------------------------------------------------------------------: | 
-|                      [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/)                       |
-|                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/)                 |
-| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/) | 
+|                      [<img src="https://ibb.co/WpxLR3W" width = "200" />](https://github.com/LilySu)                       |
+|                 [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/LilySu)                 |
+| [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/lilyxsu) | 
 
 
 
-🚫 5️⃣ Optional examples of using images with links for your tech stack, make sure to change these to fit your project
+
 
 ![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
