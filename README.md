@@ -1,6 +1,6 @@
 # TALLY AI
 
-A Word-Trend Analysis Business Intelligence Dashbaord
+A Word-Trend Analysis Application That Provides Actionable Business Insights. A Business Intelligence Dashboard for Small-to-Mid-Sized Buinesses.
 You can find the project at tallyai.xyz
 
 ## Contributors
