@@ -1,0 +1,22 @@
+<html>
+<body>
+    <div>
+        <form method='post'>
+            {% csrf_token %}
+            {{form}}
+            <!--creates an input field for each database item in models.py file-->
+            <button type='submit'>Submit</button>
+        </form>
+        <!--checks for messages, if there are, shows answer-->
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{message.tags}}"{% endif %}>
+                {{message}}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
