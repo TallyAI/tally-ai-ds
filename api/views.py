@@ -8,6 +8,9 @@ from api.forms import ApprovalForm
 from rest_framework.response import Response
 from django.contrib import messages
 from django.http import JsonResponse
+from rest_framework import status
+import json
+from django.http import HttpResponse
 
 
 import tarfile
@@ -142,10 +145,11 @@ class HomeView(TemplateView):
 
             to_predict = form.cleaned_data['url']  # Form.cleaned_data accesses the data after checking if is_valid is true, cleaning CharField to string
             text = ValuePredictor(to_predict)
-            results = JsonResponse(text, safe=False)
+            text= JsonResponse(text, safe=False)
+            # text = HttpResponse(json.dumps(text), content_type="application/json")
             form = ApprovalForm()
-            return redirect('api/form:index')#redirects to homepage, this also worked api/form:index
-
+            #return redirect('api/form:index')#redirects to homepage, this also worked api/form:index
+            return text
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
 
