@@ -1,5 +1,5 @@
 from django import forms
-from api.models import url
+from api.models import Url
 
 
 class ApprovalForm(forms.ModelForm):#bound to a django Model
@@ -7,5 +7,5 @@ class ApprovalForm(forms.ModelForm):#bound to a django Model
     # id = forms.IntegerField()
 
     class Meta:
-        model = url#links the model
+        model = Url#links the model
         fields = ('url',)#fields to include, could include more than one, comma saves datatype as tuple

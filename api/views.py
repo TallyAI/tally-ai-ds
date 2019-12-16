@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from api.serializers import WordListSerializer
-from api.models import url, WordListAPI
+from api.models import Url, WordListAPI
 from django.views.generic import TemplateView, ListView
 from rest_framework import serializers, viewsets
 from rest_framework.decorators import api_view
 from api.forms import ApprovalForm
 from rest_framework.response import Response
 from django.contrib import messages
+from django.http import JsonResponse
 
 
 import tarfile
@@ -22,6 +23,8 @@ from concurrent.futures import ThreadPoolExecutor as Executor
 from itertools import count
 import requests
 
+
+nlp = spacy.load("./down_sm/en_core_web_sm-2.1.0/en_core_web_sm/en_core_web_sm-2.1.0")
 
 def ValuePredictor(yelp_url, from_isbn=False):
     '''Takes a url, scrape site for reviews
@@ -110,7 +113,7 @@ class APIView(TemplateView):
 
 
 class APIListView(ListView):
-    model = url
+    model = Url
 
 
 class WordListViewSet(viewsets.ModelViewSet):
@@ -118,22 +121,12 @@ class WordListViewSet(viewsets.ModelViewSet):
     serializer_class = WordListSerializer
 
 
-@api_view(["POST"])  # url gets posted in here
-def feedInUrl(request):
-    try:
-        datafedin = request.data  # data fed in will be in dictionary form
-        url = datafedin.values()
-        return JsonResponse('{}'.format(), safe=False)
-    except ValueError as e:
-        return Response(e.args[0], status.HTTP_400_BAD_REQUEST)
-
-
 class HomeView(TemplateView):
     template_name = 'form/index.html'
 
     def get(self, request):
         form = ApprovalForm()
-        url_submitted = url.objects.all()
+        url_submitted = Url.objects.all().order_by('-date')
 
         args = {'form':form,'url_submitted':url_submitted}
         return render(request, self.template_name, args)
@@ -147,11 +140,11 @@ class HomeView(TemplateView):
             url.user = request.user
             url.save()
 
-            text = form.cleaned_data['url']  # Form.cleaned_data accesses the data after checking if is_valid is true, cleaning CharField to string
-            # messages.success(request, url)
-            # form = ApprovalForm()#if it is not a post method, return empty form as is
+            to_predict = form.cleaned_data['url']  # Form.cleaned_data accesses the data after checking if is_valid is true, cleaning CharField to string
+            text = ValuePredictor(to_predict)
+            results = JsonResponse(text, safe=False)
             form = ApprovalForm()
-            return redirect('')#redirects to homepage, this also worked api/form:index
+            return redirect('api/form:index')#redirects to homepage, this also worked api/form:index
 
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)

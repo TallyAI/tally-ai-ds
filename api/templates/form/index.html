@@ -1,6 +1,6 @@
 <html>
 <body>
-{% block body %}
+
     <div>
         <form method='post'>
             {% csrf_token %}
@@ -20,10 +20,13 @@
         <!--{% endif %}-->
         <h2>{{ text }}</h2>
         {% for url in url_submitted %}
-            <h1>{{url.url}}</h1>
-            <p>{{url.date}}</p>
+            <h3>{{ url.url }}</h3>
+            <p>{{ url.date }}</p>
+            <p>{{ url.word_phrase }}</p>
+            <p>{{ url.high_rating_score }}</p>
+            <p>{{ url.low_rating_score }}</p>
         {% endfor %}
     </div>
+
 </body>
 </html>
-{% endblock %}
