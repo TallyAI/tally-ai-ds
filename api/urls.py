@@ -14,6 +14,7 @@ urlpatterns = [
     path('', include(router.urls)),#Whenever Django encounters include(), it chops off whatever part of the URL matched
     # up to that point and sends the remaining string to the included URLconf for further processing.
     # path('form/', views.HomeView, name='index'),
-    url('form/', HomeView.as_view(), name='index')#as_view returns a function instead of class, inherets from TemplateView
+    url('<int:pk>/', HomeView.as_view(), name='index')#as_view returns a function instead of class, inherets from TemplateView
+    # url(r'^$', HomeView.results, name='results')
 ]
 #more info: https://docs.djangoproject.com/en/3.0/topics/http/urls/#url-namespaces

@@ -8,9 +8,11 @@ from api.forms import ApprovalForm
 from rest_framework.response import Response
 from django.contrib import messages
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from rest_framework import status
 import json
-from django.http import HttpResponse
+import requests
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 import tarfile
@@ -129,7 +131,7 @@ class HomeView(TemplateView):
 
     def get(self, request):
         form = ApprovalForm()
-        url_submitted = Url.objects.all().order_by('-date')
+        url_submitted = Url.objects.all()#.order_by('-date')#updates the latest by ordering with the latest date first
 
         args = {'form':form,'url_submitted':url_submitted}
         return render(request, self.template_name, args)
@@ -140,24 +142,25 @@ class HomeView(TemplateView):
         #     form=ApprovalForm(request.POST)
         if form.is_valid():  # checks if there is some content in form
             url = form.save(commit=False)#I want to do something first before saving for good
-            url.user = request.user
+            # url.user = request.user            # url.user = request.user
             url.save()
 
             to_predict = form.cleaned_data['url']  # Form.cleaned_data accesses the data after checking if is_valid is true, cleaning CharField to string
             text = ValuePredictor(to_predict)
             text= JsonResponse(text, safe=False)
-            # text = HttpResponse(json.dumps(text), content_type="application/json")
             form = ApprovalForm()
-            #return redirect('api/form:index')#redirects to homepage, this also worked api/form:index
+
+
+            #return redirect('/api/form/results/')#redirects to homepage, this also worked api/form:index
             return text
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
 
-# def cxcontact(request):
-#     if request.method=='POST':
-#         serializer = WordListSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             # return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # def result(request):
+    #     if request.method=='POST':
+    #         serializer = WordListSerializer(data=request.data)
+    #         if serializer.is_valid():
+    #             serializer.save()
+                # return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 # return render(request, 'form/index.html',{'form':form})
