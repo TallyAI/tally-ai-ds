@@ -1,5 +1,5 @@
 from django import forms
-from api.models import Url
+from yelp.models import Url
 
 
 class ApprovalForm(forms.ModelForm):#bound to a django Model

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Url
+from yelp.models import Url
 
 class WordListSerializer(serializers.ModelSerializer):
     class Meta:

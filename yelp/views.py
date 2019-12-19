@@ -1,32 +1,17 @@
-from django.shortcuts import render, redirect
-from api.serializers import WordListSerializer
-from api.models import Url, WordListAPI
+from django.shortcuts import render
+from yelp.models import Url
 from django.views.generic import TemplateView, ListView
-from rest_framework import serializers, viewsets
-from rest_framework.decorators import api_view
-from api.forms import ApprovalForm
-from rest_framework.response import Response
-from django.contrib import messages
+from yelp.forms import ApprovalForm
 from django.http import JsonResponse
-from django.shortcuts import redirect
-from rest_framework import status
-import json
-import requests
-from django.http import HttpResponse, HttpResponseRedirect
 
 
-import tarfile
-import numpy as np
 import pandas as pd
 import spacy
-import wget
-from spacy.lang.en import English
 import scattertext as st
 from lxml import html
 from requests import Session
 from concurrent.futures import ThreadPoolExecutor as Executor
-from itertools import count
-import requests
+
 
 
 nlp = spacy.load("./down_sm/en_core_web_sm-2.1.0/en_core_web_sm/en_core_web_sm-2.1.0")
@@ -121,17 +106,12 @@ class APIListView(ListView):
     model = Url
 
 
-class WordListViewSet(viewsets.ModelViewSet):
-    queryset = WordListAPI.objects.all()
-    serializer_class = WordListSerializer
-
-
 class HomeView(TemplateView):
     template_name = 'form/index.html'
 
     def get(self, request):
         form = ApprovalForm()
-        url_submitted = Url.objects.all()#.order_by('-date')#updates the latest by ordering with the latest date first
+        url_submitted = Url.objects.all()
 
         args = {'form':form,'url_submitted':url_submitted}
         return render(request, self.template_name, args)
@@ -141,26 +121,14 @@ class HomeView(TemplateView):
         # if request.method=='POST': #pass my post information in
         #     form=ApprovalForm(request.POST)
         if form.is_valid():  # checks if there is some content in form
-            url = form.save(commit=False)#I want to do something first before saving for good
-            # url.user = request.user            # url.user = request.user
-            url.save()
 
             to_predict = form.cleaned_data['url']  # Form.cleaned_data accesses the data after checking if is_valid is true, cleaning CharField to string
             text = ValuePredictor(to_predict)
             text= JsonResponse(text, safe=False)
+            # text = HttpResponse(json.dumps(text), content_type="application/json")
             form = ApprovalForm()
-
-
-            #return redirect('/api/form/results/')#redirects to homepage, this also worked api/form:index
+            #return redirect('api/form:index')#redirects to homepage, this also worked api/form:index
             return text
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
 
-    # def result(request):
-    #     if request.method=='POST':
-    #         serializer = WordListSerializer(data=request.data)
-    #         if serializer.is_valid():
-    #             serializer.save()
-                # return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-# return render(request, 'form/index.html',{'form':form})
