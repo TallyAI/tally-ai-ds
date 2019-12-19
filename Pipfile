@@ -54,7 +54,6 @@ SQLAlchemy = "==1.3.7"
 Werkzeug = "==0.15.5"
 django = "*"
 djangorestframework = "*"
-python-decouple = "*"
 
 [requires]
 python_version = "3.7"
