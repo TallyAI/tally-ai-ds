@@ -1,0 +1,28 @@
+<html>
+<body>
+
+    <div>
+        <form method='post'>
+            {% csrf_token %}
+            {{form.as_p}}<!--use paragraphs to render html-->
+            <!--creates an input field for each database item in models.py file-->
+            <button type='submit'>Submit</button>
+        </form>
+        <!--&lt;!&ndash;checks for messages, if there are, shows answer&ndash;&gt;-->
+        <!--{% if messages %}-->
+        <!--<ul class="messages">-->
+            <!--{% for message in messages %}-->
+            <!--&lt;!&ndash;<li {% if message.tags %} class="{{message.tags}}"{% endif %}>&ndash;&gt;-->
+                <!--{{message}}-->
+            <!--</li>-->
+            <!--{% endfor %}-->
+        <!--</ul>-->
+        <!--{% endif %}-->
+        <h2>{{ text }}</h2>
+        {% for url in url_submitted %}
+            <h3>{{ url.url }}</h3>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+[console_scripts]
+scattertext = scattertext.CLI:main
+
