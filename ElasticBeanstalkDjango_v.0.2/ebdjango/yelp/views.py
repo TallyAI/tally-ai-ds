@@ -6,6 +6,14 @@ from django.http import JsonResponse, HttpResponse
 from yelp.py_scraper import yelpScraper
 import requests
 import json
+import pandas as pd
+import spacy
+import scattertext as st
+# from yelp.models import business_id_test1, scraping_test1
+
+nlp = spacy.load("./down_sm/en_core_web_sm-2.1.0/en_core_web_sm/en_core_web_sm-2.1.0")
+
+
 
 
 class APIView(TemplateView):
@@ -53,8 +61,34 @@ def profile(request, business_id):
         output = {'id': review['id'], 'time': review['time_created'], 'text': review['text'], 'rating': review['rating']}
         reviews_json.append(output)
 
-    nlp_prediction = yelpScraper(BUSINESS_ID)
-    result = json.dumps(nlp_prediction, indent=2)
+    # nlp_prediction = yelpScraper(BUSINESS_ID)
+    df = yelpScraper(BUSINESS_ID)
+    for i in df[1]:
+        insert_reviews = scraping_test1.objects.create(text=df[1])
+    nlp.Defaults.stop_words |= {'will','because','not','friends','amazing','awesome','first','he','check-in','=','= =','male','u','want', 'u want', 'cuz','him',"i've", 'deaf','on', 'her','told','told him','ins', 'check-ins','check-in','check','I', 'i"m', 'i', ' ', 'it', "it's", 'it.','they','coffee','place','they', 'the', 'this','its', 'l','-','they','this','don"t','the ', ' the', 'it', 'i"ve', 'i"m', '!', '1','2','3','4', '5','6','7','8','9','0','/','.',','}
+
+    corpus = st.CorpusFromPandas(df,
+                             category_col=2,
+                             text_col=1,
+                             nlp=nlp).build()
+
+    term_freq_df = corpus.get_term_freq_df()
+    term_freq_df['highratingscore'] = corpus.get_scaled_f_scores('5.0 star rating')
+
+    term_freq_df['poorratingscore'] = corpus.get_scaled_f_scores('1.0 star rating')
+    dh = term_freq_df.sort_values(by= 'highratingscore', ascending = False)
+    dh = dh[['highratingscore', 'poorratingscore']]
+    dh = dh.reset_index(drop=False)
+    dh = dh.rename(columns={'highratingscore': 'score'})
+    dh = dh.drop(columns='poorratingscore')
+    positive_df = dh.head(10)
+    negative_df = dh.tail(10)
+    results = {'positive': [{'term': pos_term, 'score': pos_score} for pos_term, pos_score in
+                            zip(positive_df['term'], positive_df['score'])],
+               'negative': [{'term': neg_term, 'score': neg_score} for neg_term, neg_score in
+                            zip(negative_df['term'], negative_df['score'])]}
+
+    result = json.dumps(results, indent=2)
     # for object in result:
     #     foo = MyScrapedThing.objects.create(name=object)
     #     # foo = MyScrapedThing(key=object.key, value=object.val)
@@ -62,9 +96,10 @@ def profile(request, business_id):
     # MyScrapedThing.objects.all()
     # biz_id.save()
 
-    
+
     data = request.POST
-    ret = scraping_test1.objects.create(business_id=BUSINESS_ID )
+    insert_biz_id_time = scraping_test1.objects.create(business_id=BUSINESS_ID)
+
 
     return HttpResponse(result)
 

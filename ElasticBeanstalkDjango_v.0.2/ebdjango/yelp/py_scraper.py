@@ -2,11 +2,6 @@ import pandas as pd
 from requests import Session
 from lxml import html
 from concurrent.futures import ThreadPoolExecutor as Executor
-import spacy
-import scattertext as st
-
-nlp = spacy.load("./down_sm/en_core_web_sm-2.1.0/en_core_web_sm/en_core_web_sm-2.1.0")
-
 
 def yelpScraper(bid, from_isbn=False):
     '''Takes a url, scrape site for reviews
@@ -47,27 +42,27 @@ def yelpScraper(bid, from_isbn=False):
     s = Scraper()
     s.scrape()
     df = s.data#converts scraped data into
+    return df
+    # nlp.Defaults.stop_words |= {'will','because','not','friends','amazing','awesome','first','he','check-in','=','= =','male','u','want', 'u want', 'cuz','him',"i've", 'deaf','on', 'her','told','told him','ins', 'check-ins','check-in','check','I', 'i"m', 'i', ' ', 'it', "it's", 'it.','they','coffee','place','they', 'the', 'this','its', 'l','-','they','this','don"t','the ', ' the', 'it', 'i"ve', 'i"m', '!', '1','2','3','4', '5','6','7','8','9','0','/','.',','}
 
-    nlp.Defaults.stop_words |= {'will','because','not','friends','amazing','awesome','first','he','check-in','=','= =','male','u','want', 'u want', 'cuz','him',"i've", 'deaf','on', 'her','told','told him','ins', 'check-ins','check-in','check','I', 'i"m', 'i', ' ', 'it', "it's", 'it.','they','coffee','place','they', 'the', 'this','its', 'l','-','they','this','don"t','the ', ' the', 'it', 'i"ve', 'i"m', '!', '1','2','3','4', '5','6','7','8','9','0','/','.',','}
+    # corpus = st.CorpusFromPandas(df,
+    #                          category_col=2,
+    #                          text_col=1,
+    #                          nlp=nlp).build()
 
-    corpus = st.CorpusFromPandas(df,
-                             category_col=2,
-                             text_col=1,
-                             nlp=nlp).build()
+    # term_freq_df = corpus.get_term_freq_df()
+    # term_freq_df['highratingscore'] = corpus.get_scaled_f_scores('5.0 star rating')
 
-    term_freq_df = corpus.get_term_freq_df()
-    term_freq_df['highratingscore'] = corpus.get_scaled_f_scores('5.0 star rating')
-
-    term_freq_df['poorratingscore'] = corpus.get_scaled_f_scores('1.0 star rating')
-    dh = term_freq_df.sort_values(by= 'highratingscore', ascending = False)
-    dh = dh[['highratingscore', 'poorratingscore']]
-    dh = dh.reset_index(drop=False)
-    dh = dh.rename(columns={'highratingscore': 'score'})
-    dh = dh.drop(columns='poorratingscore')
-    positive_df = dh.head(10)
-    negative_df = dh.tail(10)
-    results = {'positive': [{'term': pos_term, 'score': pos_score} for pos_term, pos_score in
-                            zip(positive_df['term'], positive_df['score'])],
-               'negative': [{'term': neg_term, 'score': neg_score} for neg_term, neg_score in
-                            zip(negative_df['term'], negative_df['score'])]}
-    return results
+    # term_freq_df['poorratingscore'] = corpus.get_scaled_f_scores('1.0 star rating')
+    # dh = term_freq_df.sort_values(by= 'highratingscore', ascending = False)
+    # dh = dh[['highratingscore', 'poorratingscore']]
+    # dh = dh.reset_index(drop=False)
+    # dh = dh.rename(columns={'highratingscore': 'score'})
+    # dh = dh.drop(columns='poorratingscore')
+    # positive_df = dh.head(10)
+    # negative_df = dh.tail(10)
+    # results = {'positive': [{'term': pos_term, 'score': pos_score} for pos_term, pos_score in
+    #                         zip(positive_df['term'], positive_df['score'])],
+    #            'negative': [{'term': neg_term, 'score': neg_score} for neg_term, neg_score in
+    #                         zip(negative_df['term'], negative_df['score'])]}
+    # return results
