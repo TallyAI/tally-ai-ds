@@ -148,6 +148,7 @@ def getYelpPhrases(yelpScraperResult):
     negative_df_addon = negative_df_addon.reset_index(drop=False)
     negative_df_addon = negative_df_addon.rename(columns={'index':'score', 0 : 'term'})
     negative_df = pd.concat([negative_df, negative_df_addon])
+    negative_df['term'] = negative_df['term'].str.replace(',',' ')
     negative_df = negative_df.head(10)
 
 
@@ -203,6 +204,7 @@ def getYelpPhrases(yelpScraperResult):
     positive_df_addon = positive_df_addon.reset_index(drop=False)
     positive_df_addon = positive_df_addon.rename(columns={'index':'score', 0 : 'term'})
     positive_df = pd.concat([positive_df, positive_df_addon])
+    positive_df['term'] = positive_df['term'].str.replace(',',' ')
     positive_df = positive_df.head(10)
 
 
