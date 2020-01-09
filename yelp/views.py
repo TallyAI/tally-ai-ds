@@ -20,8 +20,8 @@ def index(request):
 def getPosNegPhrases(request, business_id):
     yelpScraperResult = yelpScraper(business_id)
     # result = json.dumps(getYelpWords(yelpScraperResult))
-    # result = json.dumps(getYelpPhrases(yelpScraperResult))
-    result = json.dumps(getYelp3Words(yelpScraperResult))
+    result = json.dumps(getYelpPhrases(yelpScraperResult))
+    # result = json.dumps(getYelp3Words(yelpScraperResult))
     return HttpResponse(result)
 
 
