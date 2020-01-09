@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from rest_framework import generics
 from .serializers import YelpYelpScrapingSerializer
 from .models import YelpYelpScraping
-from tallylib.scattertext import getYelpWords, getYelpNouns
+from tallylib.scattertext import getYelpWords, getYelp3Words
 from tallylib.no_nlp_long_phrases import getYelpPhrases
 from tallylib.scraper import yelpScraper
 
@@ -21,7 +21,7 @@ def getPosNegPhrases(request, business_id):
     yelpScraperResult = yelpScraper(business_id)
     # result = json.dumps(getYelpWords(yelpScraperResult))
     # result = json.dumps(getYelpPhrases(yelpScraperResult))
-    result = json.dumps(getYelpNouns(yelpScraperResult))
+    result = json.dumps(getYelp3Words(yelpScraperResult))
     return HttpResponse(result)
 
 

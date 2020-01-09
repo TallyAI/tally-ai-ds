@@ -93,7 +93,7 @@ DATABASES = {
                     },        
         'TEST': {
             # 'NAME': 'test', # test database name
-            'ENGINE': 'django.db.backends.sqlite3',
+            'ENGINE': 'django_jan08.db.backends.sqlite3',
         },
     },
 }
