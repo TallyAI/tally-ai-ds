@@ -6,10 +6,10 @@ from collections import Counter
 from flashtext import KeywordProcessor
 from .scraper import yelpScraper
 
+nlp = spacy.load("./down_sm/en_core_web_sm-2.1.0/en_core_web_sm/en_core_web_sm-2.1.0")
+# nlp = spacy.load("en_core_web_sm/en_core_web_sm-2.2.5")
 
-nlp = spacy.load("en_core_web_sm/en_core_web_sm-2.2.5")
-
-def getYelpWords(yelpScraperResult):
+def getYelpWordsReviewFreq(yelpScraperResult):
     df = yelpScraperResult
 
     nlp.Defaults.stop_words |= {'will','because','not','friends','amazing','awesome','first','he','check-in','=','= =','male','u','want', 'u want', 'cuz','him',"i've", 'deaf','on', 'her','told','told him','ins', 'check-ins','check-in','check','I', 'i"m', 'i', ' ', 'it', "it's", 'it.','they','coffee','place','they', 'the', 'this','its', 'l','-','they','this','don"t','the ', ' the', 'it', 'i"ve', 'i"m', '!', '1','2','3','4', '5','6','7','8','9','0','/','.',','}
@@ -30,11 +30,31 @@ def getYelpWords(yelpScraperResult):
     dh = dh.drop(columns='poorratingscore')
     positive_df = dh.head(10)
     negative_df = dh.tail(10)
-    results = {'positive': [{'term': pos_term, 'score': pos_score} for pos_term, pos_score in
-                            zip(positive_df['term'], positive_df['score'])],
-               'negative': [{'term': neg_term, 'score': neg_score} for neg_term, neg_score in
-                            zip(negative_df['term'], negative_df['score'])]}
+
+    df = df.rename(columns = {0:'date', 2:'stars',1:'text'})
+    df['date'] = df['date'].str.replace('\n','')
+    df['date'] = df['date'].str.replace(' ','')
+    df['date'] = df['date'].astype('datetime64[ns]')
+    ratingDict = {'5.0 star rating':5,'4.0 star rating':4, '3.0 star rating':3, '2.0 star rating':2, '1.0 star rating':1}
+    df['stars'] = df['stars'].map(ratingDict) 
+    df['month'] = df['date'].dt.month
+    df['year'] = df['date'].dt.year
+    df['week_number_of_year'] = df['date'].dt.week
+    bydate = df.groupby(['year', 'month','week_number_of_year']).mean()
+    bydate = pd.DataFrame(bydate.to_records())#flatten groupby column
+    bydate = bydate.iloc[::-1]
+    bydate = bydate.head(8)
+    bydate['cumulative_avg_rating'] = bydate['stars'].mean()
+
+    results = {'viztype0':{'positive': [{'term': pos_term, 'score': pos_score} 
+                            for pos_term, pos_score in zip(positive_df['term'], positive_df['score'])], 
+                        'negative': [{'term': neg_term, 'score': neg_score} 
+                                        for neg_term, neg_score in zip(negative_df['term'], negative_df['score'])]},
+                'viztype3':{'const star_data': [{'date': term, 'cumulative_avg_rating': current_rating, 'weekly_avg_rating': week_rating}
+                                        for term, current_rating, week_rating in zip(bydate['week_number_of_year'], bydate['cumulative_avg_rating'], bydate['stars'])]}
+                }
     return results
+
 
 def getYelp3Words(yelpScraperResult):
     df = yelpScraperResult

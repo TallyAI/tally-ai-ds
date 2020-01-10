@@ -30,40 +30,40 @@ class YelpBusiness(models.Model):
 
     def __str__(self):
         """Return a human readable representation of the model instance."""
-        return "{}".format(self.name)
+        return "{}".format(self.business_id)
         
     class Meta:
         managed = False
         db_table = 'business'
 
 
-# class YelpReview(models.Model):
-#     uuid = models.UUIDField(primary_key=True)
-#     review_id = models.CharField(max_length=50, blank=True, null=True)
-#     business_id = models.CharField(max_length=50, blank=True, null=True)
-#     user_id = models.CharField(max_length=50, blank=True, null=True)
-#     stars = models.FloatField(blank=True, null=True)
-#     datetime = models.DateTimeField(blank=True, null=True)
-#     date = models.DateField(blank=True, null=True)
-#     time = models.TimeField(blank=True, null=True)
-#     text = models.CharField(max_length=5000, blank=True, null=True)
-#     timestamp = models.DateTimeField(blank=True, null=True)
-#     data_source = models.SmallIntegerField(blank=True, null=True)
+class YelpReview(models.Model):
+    uuid = models.UUIDField(primary_key=True)
+    review_id = models.CharField(max_length=100, blank=True, null=True)
+    business_id = models.CharField(max_length=100, blank=True, null=True)
+    user_id = models.CharField(max_length=100, blank=True, null=True)
+    stars = models.FloatField(blank=True, null=True)
+    datetime = models.DateTimeField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    time = models.TimeField(blank=True, null=True)
+    text = models.CharField(max_length=5000, blank=True, null=True)
+    timestamp = models.DateTimeField(blank=True, null=True)
+    data_source = models.SmallIntegerField(blank=True, null=True)
 
-#     def __str__(self):
-#         """Return a human readable representation of the model instance."""
-#         return "{}".format(self.name)
+    def __str__(self):
+        """Return a human readable representation of the model instance."""
+        return "{}".format(self.uuid)
 
-#     class Meta:
-#         managed = False
-#         db_table = 'review'
+    class Meta:
+        managed = False
+        db_table = 'review'
 
 
 class YelpYelpScraping(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    review_id = models.CharField(max_length=50, blank=True, null=True)
-    business_id = models.CharField(max_length=50, blank=True, null=True)
-    user_id = models.CharField(max_length=50, blank=True, null=True)
+    review_id = models.CharField(max_length=100, blank=True, null=True)
+    business_id = models.CharField(max_length=100, blank=True, null=True)
+    user_id = models.CharField(max_length=100, blank=True, null=True)
     stars = models.FloatField(blank=True, null=True)
     datetime = models.DateTimeField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
@@ -73,8 +73,22 @@ class YelpYelpScraping(models.Model):
 
     def __str__(self):
         """Return a human readable representation of the model instance."""
-        return "{}".format(self.name)
+        return "{}".format(self.uuid)
 
     class Meta:
         managed = False
         db_table = 'yelp_scraping'
+
+class YelpDsTrendyPhrase(models.Model):
+    business_id = models.CharField(primary_key=True, max_length=100)
+    datetime = models.DateTimeField(blank=True, null=True)
+    rank = models.FloatField(blank=True, null=True)
+    keywords = models.CharField(max_length=200, blank=True, null=True)
+
+    def __str__(self):
+        """Return a human readable representation of the model instance."""
+        return "{}".format(self.keywords)
+
+    class Meta:
+        managed = False
+        db_table = 'ds_trendyphrase'
