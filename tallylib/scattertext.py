@@ -6,8 +6,8 @@ from collections import Counter
 from flashtext import KeywordProcessor
 from .scraper import yelpScraper
 
-nlp = spacy.load("./down_sm/en_core_web_sm-2.1.0/en_core_web_sm/en_core_web_sm-2.1.0")
-# nlp = spacy.load("en_core_web_sm/en_core_web_sm-2.2.5")
+
+nlp = spacy.load("en_core_web_sm/en_core_web_sm-2.2.5")
 
 def getYelpWordsReviewFreq(yelpScraperResult):
     df = yelpScraperResult
