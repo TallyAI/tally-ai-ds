@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8=(-_-7slnn_ul6v#uokp!qxa%l!=#te!f(3j_5k5(deia*jk1'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,12 +85,12 @@ WSGI_APPLICATION = 'tally.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'tally_ds',
-        'PASSWORD': 'P@ssw0rd',
-        'HOST': 'database-spotifier.c5eevkz7wazj.us-east-2.rds.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': '',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
         'OPTIONS': {
                         'options': '-c search_path=django,tallyds'
                     },        
