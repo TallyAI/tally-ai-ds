@@ -1,0 +1,60 @@
+# tallylib/scattertxt.bak
+
+
+# viztype0 (Top 10 Positive/Negative Phrases)
+def getReviewPosNegPhrases(df_reviews, topk=10):
+
+    if df_reviews.empty:
+        return pd.DataFrame(), pd.DataFrame()
+
+    df = df_reviews.copy()
+    df['stars'] = df['stars'].astype(str)
+
+    nlp = spacy.load("en_core_web_sm")
+    nlp.Defaults.stop_words |= {'will','because','not','friends',
+    'amazing','awesome','first','he','check-in', 'and', 'some',
+    '=','= =','male','u','want', 'u want', 'cuz', 'also', 'find',
+    'him',"i've", 'deaf','on', 'her','told','told him',
+    'ins', 'check-ins','check-in','check','I', 'i"m', 
+    'i', ' ', 'it', "it's", 'it.','they','coffee','place', "it 's", "'s", 
+    'they', 'the', 'this','its', 'l','-','they','this',
+    'don"t','the ', ' the', 'it', 'i"ve', 'i"m', '!', '&',
+    '1','2','3','4', '5','6','7','8','9','0','/','.',','}
+    
+    # This algorithm doesn't handle one category case.
+    # e.g. xvX2CttrVhyG2z1dFg_0xw would cause error
+    # "Documents must be labeled with more than one category. 
+    #  All documents were labeled with category: "5""
+    try:
+        corpus = st.CorpusFromPandas(df,
+                                    category_col='stars',
+                                    text_col='text',
+                                    nlp=nlp).build()
+        term_freq_df = corpus.get_term_freq_df()
+    except Exception as e:
+        print(e)
+
+    categories = df['stars'].unique()
+    high, poor = np.array([]), np.array([])
+    if '5' in categories:
+        high = corpus.get_scaled_f_scores('5')
+    elif '4' in categories:
+        high = corpus.get_scaled_f_scores('4')
+    if '1' in categories:
+        poor =  corpus.get_scaled_f_scores('1')
+    elif '2' in categories:
+        poor = corpus.get_scaled_f_scores('2')
+
+    df_high, df_poor = pd.DataFrame(), pd.DataFrame()
+    columns = ['term', 'score']
+    if high.shape[0] > 0:
+        df_high = pd.DataFrame([term_freq_df.index.tolist(), high]).T
+        df_high = df_high.sort_values(1, ascending=False).head(topk)
+        df_high.columns = columns
+    if poor.shape[0] > 0:
+        df_poor = pd.DataFrame([term_freq_df.index.tolist(), poor]).T
+        df_poor = df_poor.sort_values(1, ascending=False).head(topk)
+        df_poor.columns = columns
+
+    # positive dataframe, negative dataframe 
+    return df_high.head(topk), df_poor.tail(topk)
