@@ -113,7 +113,7 @@ React, Material UI, Recharts, Python, Django, Postgres, AWS
 
 ### NLP Packages Used
 
-Spacy, Textrank, Scattertext, Textrank
+Spacy, Textrank, Scattertext
 
 
 ### Data Sources
